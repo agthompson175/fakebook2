@@ -25,12 +25,12 @@ def build_cart():
             if str(cart_item.product) not in cart_dict:
                 cart_dict[str(p.id)] = {
                     'id': cart_item.id,
-                    'product_id': p.stripe_product_id,
+                    'product_id': p.id,
                     'image': p.image,
                     'quantity': 1,
                     'name': p.name,
                     'description': p.description,
-                    'price': p.price,
+                    'price': (p.price)/100,
                     'tax': p.tax
                 }
             else:

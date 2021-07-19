@@ -58,15 +58,21 @@ def add_to_cart():
     flash(f'You have added {product.name} to the cart', 'success')
     return redirect(url_for('shop.index'))
 
-@app.route('/cart/remove/<id>')
-def remove_from_cart(id):
-    item = StripeProduct.query.get(id)
-    #db.session.delete(Cart.query.filter_by(
-     #   user_id=current_user.id, product=product.stripe_product_id).first())
-    #db.session.commit()
-    [db.session.delete(i) for i in Cart.query.filter_by(product=item.id).all()]
-    db.session.commit()
-    return redirect(url_for('shop.cart'))
+
+@app.route('/delete/<product_id>', methods=['POST'])
+def delete_from_cart(product_id):
+   """
+   [POST] /shop/cart/delete
+   """
+   if not current_user.is_authenticated:
+      flash('You must log in to add items to your cart', 'warning')
+      return redirect(url_for('authentication.login'))
+
+   product = StripeProduct.query.get(product_id)
+   db.session.delete(Cart.query.filter_by(user_id=current_user.id, id=product_id).first())
+   db.session.commit()
+   flash('item has been removed from your cart.', 'success')
+   return redirect(url_for('shop.cart'))
 
 
 @app.route('/checkout', methods=['POST'])
