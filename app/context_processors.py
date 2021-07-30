@@ -30,7 +30,7 @@ def build_cart():
                     'quantity': 1,
                     'name': p.name,
                     'description': p.description,
-                    'price': (p.price)/100,
+                    'price': p.price,
                     'tax': p.tax
                 }
             else:

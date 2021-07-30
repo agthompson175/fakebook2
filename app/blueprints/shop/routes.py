@@ -75,6 +75,12 @@ def delete_from_cart(product_id):
    return redirect(url_for('shop.cart'))
 
 
+@app.route('/update', methods=['POST'])
+def update_cart():
+   print(request.form.get('quantity'))
+   return redirect(url_for('shop.cart'))
+   
+
 @app.route('/checkout', methods=['POST'])
 def checkout():
     stripe.api_key = current_app.config.get('STRIPE_SECRET_KEY')
